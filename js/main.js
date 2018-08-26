@@ -9,33 +9,43 @@ var textActual = document.getElementsByClassName("text");
 var previous = document.getElementsByClassName("previous");
 var next = document.getElementsByClassName("next");
 
-var intervalCarousel = setInterval(carouselMove, 2500);
+var intervalCarousel = setInterval(function(){carouselMove("+")}, 3000); // run the function every three seconds
 
-index = 0;
+var index = 0;
 
-function carouselMove() {
+function carouselMove(parameter) {
 
-  if (index < MAXLENGTHCAROUSEL) {
-    carouselActual[0].src = "img/" + carousels[index];
-    textActual[0].innerHTML = "Text " + texts[index];
+  if (parameter === "+") {
+
+    index++;
+
+    if (index >= MAXLENGTHCAROUSEL) {
+      index = 0;
+    }
+
+  } else if (parameter === "-") {
+
+    index--;
+
+    if (index === -1) {
+      index = MAXLENGTHCAROUSEL - 1;
+    }
+
+  } else {
+    console.log("This parameter is invalid");
   }
 
-  index++;
+  // scroll through the table to change the source of the image and text
+  carouselActual[0].src = "img/" + carousels[index];
+  textActual[0].innerHTML = "Text " + texts[index];
 
-  if (index > MAXLENGTHCAROUSEL) {
-    index = 0;
-  }
+} // End of carouselMove(parameter)
 
-}
-
-function previousClick() {
-  
-}
 
 previous[0].onclick = function() {
-  previousClick();
-};
+  carouselMove("-");
+}; // start the function once when we click on the previous button
 
 next[0].onclick = function() {
-  // fonctionAppelee();
-};
+  carouselMove("+");
+}; // start the function once when we click on the next button
